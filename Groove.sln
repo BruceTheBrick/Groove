@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groove", "Groove\Groove.csproj", "{2C81FADE-0CBD-4352-AE4C-3B96C12C96F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groove.Samples", "Groove.Samples\Groove.Samples.csproj", "{7C13BD2C-8C0D-4CB2-A49E-C40AE5CB6415}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C81FADE-0CBD-4352-AE4C-3B96C12C96F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C81FADE-0CBD-4352-AE4C-3B96C12C96F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C81FADE-0CBD-4352-AE4C-3B96C12C96F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C81FADE-0CBD-4352-AE4C-3B96C12C96F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C13BD2C-8C0D-4CB2-A49E-C40AE5CB6415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C13BD2C-8C0D-4CB2-A49E-C40AE5CB6415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C13BD2C-8C0D-4CB2-A49E-C40AE5CB6415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C13BD2C-8C0D-4CB2-A49E-C40AE5CB6415}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
