@@ -17,6 +17,7 @@ public static class Groove
         builder.Services.AddTransient<INavigationService, NavigationService>();
         builder.Services.AddTransient<INavigationUtilityService, NavigationUtilityService>();
         builder.Services.AddTransient<IUriParsingService, UriParsingService>();
+        builder.Services.AddSingleton<INavigationRegistrationsService, NavigationRegistrationsService>();
         return builder;
     }
     

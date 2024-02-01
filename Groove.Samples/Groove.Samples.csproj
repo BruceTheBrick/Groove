@@ -50,7 +50,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Pages\CreditsPage\" />
       <Folder Include="Resources\Raw\" />
     </ItemGroup>
 

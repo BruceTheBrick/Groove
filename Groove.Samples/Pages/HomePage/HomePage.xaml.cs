@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Groove.Samples.Pages.HomePage;
 
-namespace Groove.Samples.Pages.HomePage;
-
-public partial class HomePage : ContentPage
+public partial class HomePage
 {
     public HomePage()
     {

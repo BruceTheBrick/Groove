@@ -1,5 +1,19 @@
-﻿namespace Groove.Samples.Pages.HomePage;
+﻿using CommunityToolkit.Mvvm.Input;
+using Groove.Services;
 
-public class HomePageViewModel : BasePageViewModel
+namespace Groove.Samples.Pages.HomePage;
+
+public partial class HomePageViewModel : BasePageViewModel
 {
+    public HomePageViewModel(INavigationService navigationService)
+    :base(navigationService)
+    {
+        Title = "This is the title!";
+    }
+
+    [RelayCommand]
+    private Task NavigateToCredits()
+    {
+        return NavigationService.Navigate(nameof(CreditsPage));
+    }
 }

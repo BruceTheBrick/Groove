@@ -3,9 +3,11 @@
 public class PageResolver : IPageResolver
 {
     private IServiceProvider _serviceProvider;
-    public PageResolver(IServiceProvider serviceProvider)
+    private INavigationRegistrationsService _navigationRegistrationsService;
+    public PageResolver(IServiceProvider serviceProvider, INavigationRegistrationsService navigationRegistrationsService)
     {
         _serviceProvider = serviceProvider;
+        _navigationRegistrationsService = navigationRegistrationsService;
     }
     public Page GetPage<TPage>() where TPage : Page
     {
@@ -14,12 +16,12 @@ public class PageResolver : IPageResolver
 
     public Page GetPage(string pageName)
     {
-        return (Page)_serviceProvider.GetService(Type.GetType(pageName));
+        return _navigationRegistrationsService.GetPageByName(pageName);
     }
 
     public object GetPageViewModel(string pageViewModelName)
     {
-        return (object) _serviceProvider.GetService(Type.GetType(pageViewModelName));
+        return _navigationRegistrationsService.GetPageViewModelByName(pageViewModelName);
     }
 
     public object GetPageViewModel<TPageViewModel>() where TPageViewModel : new()

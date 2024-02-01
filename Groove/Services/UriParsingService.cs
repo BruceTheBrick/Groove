@@ -3,9 +3,9 @@
 public class UriParsingService : IUriParsingService
 {
     private string _uriSeparator = "/";
-    public List<string> ParsePages(string uri)
+    public Stack<string> ParsePages(string uri)
     {
-        var pages = new List<string>();
+        var pages = new Stack<string>();
         var uriParts = uri.Split(_uriSeparator);
         foreach (var part in uriParts)
         {
@@ -14,7 +14,7 @@ public class UriParsingService : IUriParsingService
                 continue;
             }
 
-            pages.Add(part);
+            pages.Push(part);
         }
 
         return pages;

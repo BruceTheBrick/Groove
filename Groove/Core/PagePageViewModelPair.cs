@@ -2,6 +2,7 @@
 
 public class PagePageViewModelPair
 {
-    public object Page { get; set; }
-    public object PageViewModel { get; set; }
+    public string Name { get; set; }
+    public Type Page { get; set; }
+    public Type PageViewModel { get; set; }
 }

@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+using Groove.Samples.Pages;
 using Groove.Samples.Pages.HomePage;
+using Groove.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Groove.Samples;
@@ -23,8 +25,8 @@ public static class MauiProgram
 
     private static MauiAppBuilder RegisterPages(this MauiAppBuilder builder)
     {
-        builder.Services.AddTransient<HomePage>();
-        builder.Services.AddTransient<HomePageViewModel>();
+        builder.Services.AddPageForNavigation<HomePage, HomePageViewModel>();
+        builder.Services.AddPageForNavigation<CreditsPage, CreditsPageViewModel>();
         return builder;
     }
 }

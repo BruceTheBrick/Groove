@@ -5,5 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:homePage="clr-namespace:Groove.Samples.Pages.HomePage"
     x:DataType="homePage:HomePageViewModel">
-    <Label Text="{Binding Title}" />
+    <VerticalStackLayout>
+        <Label
+            HorizontalOptions="Center"
+            Text="{Binding Title}"
+            VerticalOptions="Center" />
+        <Button Command="{Binding NavigateToCreditsCommand}" Text="To Credits" />
+    </VerticalStackLayout>
 </ContentPage>

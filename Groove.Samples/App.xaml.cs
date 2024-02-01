@@ -8,6 +8,6 @@ public partial class App
     public App(INavigationService navigationService)
     {
         InitializeComponent();
-        navigationService.Navigate(nameof(HomePage));
+        navigationService.Navigate($"/{nameof(HomePage)}");
     }
 }
