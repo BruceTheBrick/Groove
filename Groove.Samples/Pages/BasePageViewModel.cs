@@ -8,10 +8,10 @@ public partial class BasePageViewModel : ObservableObject
     [ObservableProperty]
     private string _title;
 
-    public BasePageViewModel(INavigationService navigationService)
+    public BasePageViewModel(IGrooveNavigationService navigationService)
     {
         NavigationService = navigationService;
     }
 
-    protected INavigationService NavigationService { get; }
+    protected IGrooveNavigationService NavigationService { get; }
 }

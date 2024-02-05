@@ -28,4 +28,12 @@ public class PageResolver : IPageResolver
     {
         return _serviceProvider.GetService<TPageViewModel>();
     }
+
+    public Page GetWiredPage(string pageName)
+    {
+        var page = GetPage(pageName);
+        var viewModel = GetPageViewModel($"{pageName}ViewModel");
+        page.BindingContext = viewModel;
+        return page;
+    }
 }

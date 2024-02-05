@@ -6,4 +6,5 @@ public interface IPageResolver
     public Page GetPage(string pageName);
     public object GetPageViewModel<TPageViewModel>() where TPageViewModel : new();
     public object GetPageViewModel(string pageViewModelName);
+    public Page GetWiredPage(string pageName);
 }

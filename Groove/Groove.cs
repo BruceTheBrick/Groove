@@ -6,7 +6,8 @@ public static class Groove
 {
     public static MauiAppBuilder UseGroove(this MauiAppBuilder builder)
     {
-        builder.RegisterGrooveServices()
+        builder
+            .RegisterGrooveServices()
             .RegisterGroovePages();
         return builder;
     }
@@ -17,6 +18,7 @@ public static class Groove
         builder.Services.AddTransient<INavigationService, NavigationService>();
         builder.Services.AddTransient<INavigationUtilityService, NavigationUtilityService>();
         builder.Services.AddTransient<IUriParsingService, UriParsingService>();
+        builder.Services.AddTransient<IGrooveNavigationService, GrooveNavigationService>();
         builder.Services.AddSingleton<INavigationRegistrationsService, NavigationRegistrationsService>();
         return builder;
     }

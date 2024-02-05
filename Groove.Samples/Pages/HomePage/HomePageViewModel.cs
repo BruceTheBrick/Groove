@@ -5,7 +5,7 @@ namespace Groove.Samples.Pages.HomePage;
 
 public partial class HomePageViewModel : BasePageViewModel
 {
-    public HomePageViewModel(INavigationService navigationService)
+    public HomePageViewModel(IGrooveNavigationService navigationService)
     :base(navigationService)
     {
         Title = "This is the title!";

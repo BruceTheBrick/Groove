@@ -7,8 +7,10 @@ public class NavigationService : INavigationService
     private readonly IUriParsingService _uriParsingService;
     private readonly INavigationUtilityService _navigationUtilityService;
     private readonly IPageResolver _pageResolver;
-    private const int _minimumNavigationDelay = 150;
+    
+    private const int MinimumNavigationDelay = 150;
     private DateTime _lastNavigationEvent;
+    
     public NavigationService(
         IUriParsingService uriParsingService,
         INavigationUtilityService navigationUtilityService,
@@ -18,22 +20,8 @@ public class NavigationService : INavigationService
         _navigationUtilityService = navigationUtilityService;
         _pageResolver = pageResolver;
     }
-    public Task<INavigationResponse> Navigate(string uri)
-    {
-        return HandleNavigation(uri);
-    }
 
-    public Task<INavigationResponse> Navigate(string uri, INavigationParameters parameters)
-    {
-        return HandleNavigation(uri, parameters);
-    }
-
-    public Task<INavigationResponse> Navigate(string uri, INavigationParameters parameters, bool isModal)
-    {
-        return HandleNavigation(uri, parameters, isModal);
-    }
-
-    private Task<INavigationResponse> HandleNavigation(
+    public Task<INavigationResponse> HandleNavigation(
         string uri, 
         INavigationParameters? parameters = null,
         bool isModal = false)
@@ -49,70 +37,53 @@ public class NavigationService : INavigationService
         }
         catch (Exception ex)
         {
-            var navigationResponse = new NavigationResponse(false, ex);
-            return Task.FromResult<INavigationResponse>(navigationResponse);
+            return Task.FromResult(NavigationResponse.Failure(ex));
         }
     }
 
     private async Task<INavigationResponse> PerformAbsoluteNavigation(
-        string uri, 
+        string uri,
         INavigationParameters? parameters,
         bool isModal)
     {
-        try
+        var pages = _uriParsingService.ParsePages(uri);
+        SetMainPage(pages.Pop());
+        foreach (var page in pages)
         {
-            var pages = _uriParsingService.ParsePages(uri);
-            SetMainPage(pages.Pop());
-            foreach (var page in pages)
-            {
-                var pageAndViewModel = CreatePageAndViewModel(page);
-                await PushPageToNavigationStack(pageAndViewModel);
-            }
+            var pageAndViewModel = _pageResolver.GetWiredPage(page);
+            await PushPageToNavigationStack(pageAndViewModel, parameters, isModal);
+        }
 
-            return new NavigationResponse(true, null);
-        }
-        catch (Exception e)
-        {
-            return new NavigationResponse(false, e);
-        }
+        return NavigationResponse.Success();
     }
 
     private async Task<INavigationResponse> PerformRelativeNavigation(
-        string uri, 
+        string uri,
         INavigationParameters? parameters,
         bool isModal)
     {
-        try
+        var pages = _uriParsingService.ParsePages(uri);
+        SetMainPageIfNull(pages);
+        while (pages.Count != 0)
         {
-            var pages = _uriParsingService.ParsePages(uri);
-            SetMainPageIfNull(pages);
-            while (pages.Any())
-            {
-                var page = pages.Pop();
-                var pageAndViewModel = CreatePageAndViewModel(page);
-                await PushPageToNavigationStack(pageAndViewModel);
-            }
-      
-            return new NavigationResponse(true, null);
+            var page = pages.Pop();
+            var pageAndViewModel = _pageResolver.GetWiredPage(page);
+            await PushPageToNavigationStack(pageAndViewModel, parameters, isModal);
         }
-        catch (Exception e)
-        {
-            return new NavigationResponse(false, e);
-        }
-    }
-    
-    private Page CreatePageAndViewModel(string pageName)
-    {
-        var page = _pageResolver.GetPage(pageName);
-        var viewModel = _pageResolver.GetPageViewModel($"{pageName}ViewModel");
-        page.BindingContext = viewModel;
-        return page;
+
+        return NavigationResponse.Success();
     }
 
-    private async Task PushPageToNavigationStack(Page page)
+    private async Task PushPageToNavigationStack(Page page, INavigationParameters? parameters, bool isModal)
     {
         await DelayForNavigationEvent();
-        await Application.Current.MainPage.NavigationProxy.PushAsync(page, true);
+        if (isModal)
+        {
+            await PushModalPage(page, parameters);
+            return;
+        }
+        
+        await PushPage(page, parameters);
     }
 
     private async Task DelayForNavigationEvent()
@@ -123,7 +94,7 @@ public class NavigationService : INavigationService
         }
 
         var delay = (DateTime.Now - _lastNavigationEvent).TotalMilliseconds;
-        await Task.Delay((int)Math.Max(_minimumNavigationDelay, delay));
+        await Task.Delay((int)Math.Max(MinimumNavigationDelay, delay));
         _lastNavigationEvent = DateTime.Now;
     }
 
@@ -139,8 +110,23 @@ public class NavigationService : INavigationService
 
     private void SetMainPage(string mainPage)
     {
-        var page = CreatePageAndViewModel(mainPage);
+        var page = _pageResolver.GetWiredPage(mainPage);
         Application.Current!.MainPage = new NavigationPage(page);
         _lastNavigationEvent = DateTime.Now;
+    }
+    
+    private async Task PushModalPage(Page page, INavigationParameters? parameters)
+    {
+        await GetMainPageNavigation().PushModalAsync(page, true);
+    }
+
+    private async Task PushPage(Page page, INavigationParameters? parameters)
+    {
+        await GetMainPageNavigation().PushAsync(page, true);
+    }
+
+    private INavigation GetMainPageNavigation()
+    {
+        return Application.Current!.MainPage!.Navigation;
     }
 }

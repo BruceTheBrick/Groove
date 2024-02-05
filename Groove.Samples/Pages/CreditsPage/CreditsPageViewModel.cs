@@ -5,7 +5,7 @@ namespace Groove.Samples.Pages;
 
 public partial class CreditsPageViewModel : BasePageViewModel
 {
-    public CreditsPageViewModel(INavigationService navigationService) 
+    public CreditsPageViewModel(IGrooveNavigationService navigationService) 
         : base(navigationService)
     {
         Title = "This is the Credits Page!";

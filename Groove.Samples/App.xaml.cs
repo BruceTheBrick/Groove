@@ -5,7 +5,7 @@ namespace Groove.Samples;
 
 public partial class App
 {
-    public App(INavigationService navigationService)
+    public App(IGrooveNavigationService navigationService)
     {
         InitializeComponent();
         navigationService.Navigate($"/{nameof(HomePage)}");
