@@ -122,6 +122,7 @@ public class NavigationService : INavigationService
 
     private async Task PushPage(Page page, INavigationParameters? parameters)
     {
+        page.Appearing += 
         await GetMainPageNavigation().PushAsync(page, true);
     }
 
